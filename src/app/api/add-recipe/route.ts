@@ -51,3 +51,24 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Errore nel salvataggio della ricetta" }, { status: 500 });
   }
 }
+export async function PUT(req: Request) {
+  try {
+    const updatedRecipe = await req.json();
+
+    if (!fs.existsSync(filePath)) return NextResponse.json({ error: "Nessuna ricetta trovata" }, { status: 404 });
+
+    const fileData = fs.readFileSync(filePath, "utf-8");
+    let recipes = JSON.parse(fileData);
+
+    // Trova la ricetta esistente e aggiornala
+    const index = recipes.findIndex((r: any) => r.slug === updatedRecipe.slug);
+    if (index === -1) return NextResponse.json({ error: "Ricetta non trovata" }, { status: 404 });
+
+    recipes[index] = updatedRecipe;
+    fs.writeFileSync(filePath, JSON.stringify(recipes, null, 2));
+
+    return NextResponse.json({ message: "Ricetta aggiornata con successo!" }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: "Errore nel salvataggio" }, { status: 500 });
+  }
+}

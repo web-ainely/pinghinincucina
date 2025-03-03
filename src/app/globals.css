@@ -19,7 +19,67 @@
   --primary: #FF6B81;
   --secondary: #FFD700;
 }
+@layer base {
+  /* Sfondo effetto carta per il form */
+  .bg-paper {
+    background-color: #f8f4e1;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 100% 40px;
+  }
+    /* Effetto ombra per il form */
+  .shadow-inner {
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+/* Sfondo generale del quaderno */
+body {
+  background-color: #f8f4e1; /* Carta ingiallita */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 100% 40px;
+  color: #3b3b3b;
+  font-family: "Caveat", cursive;
+}
 
+/* Effetto post-it realistico */
+.sticky-note {
+  padding: 16px;
+  width: 280px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+  transform: rotate(-3deg);
+  position: relative;
+}
+
+/* Colori diversi per ogni categoria */
+.postit-primi {
+  background: #fffa90;
+}
+.postit-secondi {
+  background: #a0ff90;
+}
+.postit-dolci {
+  background: #ff90b5;
+}
+
+/* Effetto scotch per l'immagine descrittiva */
+.scotch {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.6);
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-5deg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Effetto ombra interna per il quaderno */
+.shadow-inner {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+}
 /* Stili globali */
 body {
   background: var(--background);
