@@ -28,13 +28,37 @@
   {
     "slug": "pissa-pappa",
     "title": "pissa pappa",
-    "author": "io",
-    "time": "53",
     "category": "primi",
     "image": "https://www.dicenroll.it/uplgiochi/178-pic7416519.jpg",
+    "servings": 2,
+    "prepTime": 0,
+    "restTime": 0,
+    "cookTime": 0,
+    "totalTime": 0,
     "ingredients": [
-      "coccole",
-      "bicini",
+      {
+        "0": "c",
+        "1": "o",
+        "2": "c",
+        "3": "c",
+        "4": "o",
+        "5": "l",
+        "6": "e",
+        "name": "coccole",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "0": "b",
+        "1": "i",
+        "2": "c",
+        "3": "i",
+        "4": "n",
+        "5": "i",
+        "name": "bicini",
+        "quantity": 500,
+        "unit": "ml"
+      },
       "pappa",
       "cippy",
       "nanna",
@@ -87,6 +111,124 @@
       },
       {
         "text": "Lasciate raffreddare qualche minuto e gustatevi questa ottima specialità  ligure.",
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "pappa",
+    "title": "Pappa",
+    "category": "dolci",
+    "image": "https://www.dicenroll.it/uplgiochi/178-pic7416519.jpg",
+    "servings": 2,
+    "prepTime": 25,
+    "restTime": 60,
+    "cookTime": 35,
+    "totalTime": 120,
+    "ingredients": [
+      {
+        "name": "coccole",
+        "quantity": 20,
+        "unit": "g"
+      },
+      {
+        "name": "bicini",
+        "quantity": 500,
+        "unit": "ml"
+      },
+      {
+        "name": "tribicini",
+        "quantity": 1,
+        "unit": "tazza"
+      }
+    ],
+    "steps": [
+      {
+        "text": "qefbopmpmncfvlòmadfèmvafoèpmbnqefèn fbqepnm fbpmcvemkfèvb",
+        "image": "https://www.dicenroll.it/uplgiochi/178-pic7416519.jpg"
+      },
+      {
+        "text": "cn fvlkfnjgr0eiyhgjobv  efpjpg pojqer0jvp peroqjqvb jwefrtg",
+        "image": "https://www.dicenroll.it/uplgiochi/178-pic7416519.jpg"
+      }
+    ]
+  },
+  {
+    "slug": "pappina",
+    "title": "pappina",
+    "category": "dolci",
+    "image": "https://www.dicenroll.it/uplgiochi/178-pic7416519.jpg",
+    "servings": 2,
+    "prepTime": 23,
+    "restTime": 32,
+    "cookTime": 60,
+    "totalTime": 115,
+    "ingredients": [
+      {
+        "name": "adgfdag",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "mjnhgtfrew",
+        "quantity": 600,
+        "unit": "ml"
+      },
+      {
+        "name": "qerfgtjkiu5rtf",
+        "quantity": 67,
+        "unit": "cucchiaio"
+      },
+      {
+        "name": "juklio987iertdf",
+        "quantity": 1,
+        "unit": "tazza"
+      }
+    ],
+    "steps": [
+      {
+        "text": "jvbjiwfbqwrpvoiqgnwefrnjhy",
+        "image": ""
+      },
+      {
+        "text": "cn vkmn'pqefrgjipnv kam èefrkg'aqigqvnp",
+        "image": ""
+      }
+    ]
+  },
+  {
+    "slug": "pappa-buona",
+    "title": "Pappa buona",
+    "category": "secondi",
+    "image": "https://th.bing.com/th/id/OIP.rIlsDnWLTQNoDl3z_AuPogHaE8?w=229&h=180&c=7&r=0&o=5&pid=1.7",
+    "servings": 2,
+    "prepTime": 14,
+    "restTime": 12,
+    "cookTime": 10,
+    "totalTime": 36,
+    "ingredients": [
+      {
+        "name": "Pomodino",
+        "quantity": 2,
+        "unit": "tazza"
+      },
+      {
+        "name": "Gnocchetti",
+        "quantity": 45,
+        "unit": "cucchiaio"
+      }
+    ],
+    "steps": [
+      {
+        "text": "Cuocere gli gnocchetti",
+        "image": ""
+      },
+      {
+        "text": "Aggiungere il sugo",
+        "image": ""
+      },
+      {
+        "text": "Mangiare la pappa",
         "image": ""
       }
     ]

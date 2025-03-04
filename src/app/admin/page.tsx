@@ -9,26 +9,36 @@ export default function AdminPage() {
 
   const [slug, setSlug] = useState(""); // Per identificare la ricetta in modifica
   const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
   const [time, setTime] = useState("");
   const [category, setCategory] = useState("primi");
   const [mainImage, setMainImage] = useState("");
-  const [ingredients, setIngredients] = useState("");
-  const [steps, setSteps] = useState([{ text: "", image: "" }]);
-  const [message, setMessage] = useState("");
+  const [servings, setServings] = useState(2);
+
+// Tempi di preparazione
+const [prepTime, setPrepTime] = useState(0);
+const [restTime, setRestTime] = useState(0);
+const [cookTime, setCookTime] = useState(0);
+const [totalTime, setTotalTime] = useState(0);
+
+const [ingredients, setIngredients] = useState([{ name: "", quantity: 0, unit: "g" }]);
+const [steps, setSteps] = useState([{ text: "", image: "" }]);
+const [message, setMessage] = useState("");
 
   // 🔹 Se siamo in modalità modifica, carichiamo i dati della ricetta
   useEffect(() => {
     if (editData) {
       try {
         const parsedData = JSON.parse(decodeURIComponent(editData));
-        setSlug(parsedData.slug); // Manteniamo lo stesso slug
+        setSlug(parsedData.slug);
         setTitle(parsedData.title);
-        setAuthor(parsedData.author);
-        setTime(parsedData.time);
         setCategory(parsedData.category || "primi");
         setMainImage(parsedData.image);
-        setIngredients(parsedData.ingredients.join("\n"));
+        setServings(parsedData.servings || 2);
+        setPrepTime(parsedData.prepTime || 0);
+        setRestTime(parsedData.restTime || 0);
+        setCookTime(parsedData.cookTime || 0);
+        setTotalTime(parsedData.prepTime + parsedData.restTime + parsedData.cookTime);
+        setIngredients(parsedData.ingredients);
         setSteps(parsedData.steps);
       } catch (error) {
         console.error("Errore nel parsing della ricetta:", error);
@@ -36,10 +46,24 @@ export default function AdminPage() {
     }
   }, [editData]);
 
+  useEffect(() => {
+    setTotalTime(prepTime + restTime + cookTime);
+  }, [prepTime, restTime, cookTime]);
+
+  const handleIngredientChange = (index: number, field: string, value: string | number) => {
+    const newIngredients = [...ingredients];
+    newIngredients[index] = { ...newIngredients[index], [field]: value };
+    setIngredients(newIngredients);
+  };
+
   const handleStepChange = (index: number, field: string, value: string) => {
     const newSteps = [...steps];
     newSteps[index] = { ...newSteps[index], [field]: value };
     setSteps(newSteps);
+  };
+
+ const addIngredient = () => {
+    setIngredients([...ingredients, { name: "", quantity: 0, unit: "g" }]);
   };
 
   const addStep = () => {
@@ -50,13 +74,16 @@ export default function AdminPage() {
     e.preventDefault();
 
     const recipeData = {
-      slug, // 🔹 Manteniamo lo stesso slug per non duplicarla
+      slug,
       title,
-      author,
-      time,
       category,
       image: mainImage,
-      ingredients: ingredients.split("\n"),
+      servings,
+      prepTime,
+      restTime,
+      cookTime,
+      totalTime,
+      ingredients,
       steps,
     };
 
@@ -88,53 +115,77 @@ export default function AdminPage() {
           onChange={(e) => setTitle(e.target.value)}
           className="w-full p-3 border border-gray-400 rounded bg-transparent text-lg font-semibold shadow-inner"
         />
-        <input
-          type="text"
-          placeholder="Autore"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-          className="w-full p-3 border border-gray-400 rounded bg-transparent text-lg font-semibold shadow-inner"
-        />
-        <input
-          type="text"
-          placeholder="Tempo di Preparazione"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
-          className="w-full p-3 border border-gray-400 rounded bg-transparent text-lg font-semibold shadow-inner"
-        />
-        <input
-          type="text"
-          placeholder="URL Immagine Principale"
-          value={mainImage}
-          onChange={(e) => setMainImage(e.target.value)}
-          className="w-full p-3 border border-gray-400 rounded bg-transparent text-lg font-semibold shadow-inner"
-        />
-        <textarea
-          placeholder="Ingredienti (uno per riga)"
-          value={ingredients}
-          onChange={(e) => setIngredients(e.target.value)}
-          className="w-full p-3 border border-gray-400 rounded bg-transparent text-lg font-semibold shadow-inner"
-          rows={4}
-        />
-        <h2 className="text-2xl font-bold text-gray-900">📌 Passaggi</h2>
-        {steps.map((step, index) => (
-          <div key={index} className="space-y-2">
-            <textarea
-              placeholder={`Passaggio ${index + 1}`}
-              value={step.text}
-              onChange={(e) => handleStepChange(index, "text", e.target.value)}
-              className="w-full p-3 border border-gray-400 rounded bg-transparent text-lg font-semibold shadow-inner"
-              rows={2}
-            />
-            <input
-              type="text"
-              placeholder="URL Immagine (opzionale)"
-              value={step.image}
-              onChange={(e) => handleStepChange(index, "image", e.target.value)}
-              className="w-full p-3 border border-gray-400 rounded bg-transparent text-lg font-semibold shadow-inner"
-            />
-          </div>
-        ))}
+        <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full p-3 border rounded">
+          <option value="primi">Primi</option>
+          <option value="secondi">Secondi</option>
+          <option value="dolci">Dolci</option>
+        </select>
+        <input type="text" placeholder="URL Immagine Principale" value={mainImage} onChange={(e) => setMainImage(e.target.value)} className="w-full p-3 border rounded" />
+
+{/* Tempi di preparazione */}
+<h2 className="text-2xl font-bold">🕒 Tempi</h2>
+        <div className="grid grid-cols-4 gap-4">
+          <input type="number" placeholder="Preparazione (min)" value={prepTime} onChange={(e) => setPrepTime(Number(e.target.value))} className="p-2 border rounded" />
+          <input type="number" placeholder="Riposo (min)" value={restTime} onChange={(e) => setRestTime(Number(e.target.value))} className="p-2 border rounded" />
+          <input type="number" placeholder="Cottura (min)" value={cookTime} onChange={(e) => setCookTime(Number(e.target.value))} className="p-2 border rounded" />
+          <input type="number" placeholder="Totale (auto)" value={totalTime} readOnly className="p-2 border bg-gray-100 rounded" />
+        </div>
+        
+        {/* Ingredienti */}
+<h2 className="text-2xl font-bold">🛒 Ingredienti</h2>
+{ingredients.map((ingredient, index) => (
+  <div key={index} className="flex space-x-2">
+    <input
+      type="text"
+      placeholder="Ingrediente"
+      value={ingredient.name || ""}  // ✅ Assicuriamoci che sia una stringa
+      onChange={(e) => handleIngredientChange(index, "name", e.target.value)}
+      className="flex-1 p-2 border rounded"
+    />
+    <input
+      type="number"
+      placeholder="Quantità"
+      value={ingredient.quantity || 0}  // ✅ Assicuriamoci che sia un numero
+      onChange={(e) => handleIngredientChange(index, "quantity", Number(e.target.value))}
+      className="w-20 p-2 border rounded"
+    />
+    <select
+      value={ingredient.unit || "g"}  // ✅ Assicuriamoci che sia una stringa
+      onChange={(e) => handleIngredientChange(index, "unit", e.target.value)}
+      className="w-24 p-2 border rounded"
+    >
+      <option value="g">g</option>
+      <option value="ml">ml</option>
+      <option value="tazza">tazza</option>
+      <option value="cucchiaio">cucchiaio</option>
+    </select>
+  </div>
+))}
+
+        <button type="button" onClick={addIngredient} className="w-full bg-gray-200 px-4 py-2 rounded">➕ Aggiungi Ingrediente</button>
+     
+        {/* Passaggi */}
+<h2 className="text-2xl font-bold">📌 Passaggi</h2>
+{steps.map((step, index) => (
+  <div key={index} className="space-y-2">
+    <textarea
+      placeholder={`Passaggio ${index + 1}`}
+      value={step.text || ""} // ✅ Evitiamo errori con `undefined`
+      onChange={(e) => handleStepChange(index, "text", e.target.value)}
+      className="w-full p-3 border border-gray-400 rounded bg-transparent text-lg font-semibold shadow-inner"
+      rows={2}
+    />
+    <input
+      type="text"
+      placeholder="URL Immagine (opzionale)"
+      value={step.image || ""} // ✅ Evitiamo errori con `undefined`
+      onChange={(e) => handleStepChange(index, "image", e.target.value)}
+      className="w-full p-3 border border-gray-400 rounded bg-transparent text-lg font-semibold shadow-inner"
+    />
+  </div>
+))}
+
+       
         <button type="button" onClick={addStep} className="w-full bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded font-bold shadow">
           ➕ Aggiungi un altro passaggio
         </button>
